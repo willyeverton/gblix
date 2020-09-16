@@ -17,8 +17,8 @@ class CreateFilmsTable extends Migration
             $table->id();
             $table->string('_id')->unique();
             $table->string('title');
-            $table->string('release_date');
-            $table->string('rt_score');
+            $table->string('release_date')->nullable();
+            $table->string('rt_score')->nullable();
             $table->text('description')->nullable();
             $table->string('director')->nullable();
             $table->string('producer')->nullable();

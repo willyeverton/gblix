@@ -17,7 +17,7 @@ class CreatePeopleTable extends Migration
             $table->id();
             $table->string('_id')->unique();
             $table->string('name');
-            $table->string('age');
+            $table->string('age')->nullable();
             $table->string('gender')->nullable();
             $table->string('eye_color')->nullable();
             $table->string('hair_color')->nullable();

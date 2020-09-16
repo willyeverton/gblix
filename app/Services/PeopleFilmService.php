@@ -35,7 +35,7 @@ class PeopleFilmService extends ResponseService
                 foreach ($film['people'] as $subject) {
 
                     $id = explode('people/', $subject)[1];
-                    if($id == $person['id'] || empty($id)) {
+                    if($id == $person['id']) {
                         $this->create($person, $film);
                     }
                 }
@@ -60,7 +60,7 @@ class PeopleFilmService extends ResponseService
                 foreach ($person['films'] as $subject) {
 
                     $id = explode('films/', $subject)[1];
-                    if($id == $film['id'] || empty($id)) {
+                    if($id == $film['id']) {
                         $this->create($person, $film);
                     }
                 }

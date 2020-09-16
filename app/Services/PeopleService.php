@@ -16,21 +16,24 @@ class PeopleService extends ResponseService
 
     public function index(Request $request)
     {
-        $data = $this->all();
-
         try {
             switch ($this->getAccept($request)) {
                 case 'html':
-                    return view('api', ['data' => $data]);
-
+                    return view('api',
+                        ['data' => $this->all()]
+                    );
                 case 'json':
-                    return $this->jsonResponse($data);
-
+                    return $this->jsonResponse(
+                        $this->all()
+                    );
                 case 'csv':
-                    return $this->csvResponse($data);
+                    return $this->csvResponse();
 
                 default :
-                    return $this->jsonResponse('The fmt parameter or the header accept type is not one of the options: html, json, csv', 'ERROR');
+                    return $this->jsonResponse(
+                        'The fmt parameter or the header accept type is not one of the options: html, json, csv',
+                        'ERROR'
+                    );
             }
 
         } catch (\Throwable $th) {
@@ -47,7 +50,7 @@ class PeopleService extends ResponseService
         return isset($type[1]) ? $type[1] : $type[0];
     }
 
-    private function all() {
+    public function all() {
         $peoples = $this->people->all();
         $result = array();
 

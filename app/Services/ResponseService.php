@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Exports\PopleFilmExport;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ResponseService
 {
@@ -27,8 +29,8 @@ class ResponseService
         return $data;
     }
 
-    protected function csvResponse($data)
+    protected function csvResponse()
     {
-        return $data;
+        return Excel::download(new PopleFilmExport, 'films.csv');
     }
 }
