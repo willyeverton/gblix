@@ -35,11 +35,4 @@ class GhibliService
             return [$throwable->getMessage()];
         }
     }
-
-    public function getHeader($response)
-    {
-        if ($response->hasHeader('Content-Length')) {
-            return $response->getHeaderLine('content-type');
-        }
-    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\PeopleService;
+use Illuminate\Http\Request;
 
 class PeopleController extends Controller
 {
@@ -14,9 +15,9 @@ class PeopleController extends Controller
         $this->service = $peopleService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->index();
+        return $this->service->index($request);
     }
 
 }

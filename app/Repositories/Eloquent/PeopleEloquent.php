@@ -15,7 +15,7 @@ class PeopleEloquent implements PeopleInterface
     }
 
     public function all() {
-        return $this->model::all();
+        return $this->model->all();
     }
 
     public function save(array $people) {

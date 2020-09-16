@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method updateOrCreate(array $array, array $films)
+ */
 class Film extends Model
 {
     use HasFactory;

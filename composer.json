@@ -1,20 +1,22 @@
 {
-    "name": "laravel/laravel",
+    "name": "willyeverton/gblix",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Backend Laravel API",
     "keywords": [
-        "framework",
-        "laravel"
+        "backend",
+        "laravel",
+        "api"
     ],
-    "license": "MIT",
+    "license": "proprietary",
     "require": {
         "php": "^7.3",
+        "ext-json": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0",
-        "laravel/framework": "^7.24",
+        "laravel/framework": "^8.1",
         "laravel/tinker": "^2.0",
-        "ext-json": "*"
+        "laravel/ui": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

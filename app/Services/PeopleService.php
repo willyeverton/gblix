@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\PeopleInterface;
-use App\Services\Facades\People;
+use Illuminate\Http\Request;
 
 class PeopleService extends ResponseService
 {
@@ -14,41 +14,73 @@ class PeopleService extends ResponseService
         $this->people = $people;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $peoples = $this->people->all();
+        $data = $this->all();
 
-            if($peoples->count()) {
-                foreach($peoples as $key => $people) {
-                    $sales[$key]['films'] = $this->getFilms($people);
-                }
+        try {
+            switch ($this->getAccept($request)) {
+                case 'html':
+                    return view('api');
+
+                case 'json':
+                    return $this->jsonResponse($data);
+
+                case 'csv':
+                    return $this->csvResponse($data);
+
+                default :
+                    return $this->jsonResponse('The fmt parameter or the header accept type is not one of the options: html, json, csv', 'ERROR');
             }
-            return $this->jsonResponse($peoples);
-            /*
-                - Nome do Personagem
-                - Idade do Personagem
-                - Título do Filme
-                - Ano de Lançamento do Filme
-                - Pontuação Rotten Tomato
-            */
 
         } catch (\Throwable $th) {
             return $this->jsonResponse($th->getMessage(), 'ERROR');
         }
     }
 
-    private function getFilms(People $people) : array
+    private function getAccept($request)
+    {
+        $type = $request->get('fmt') ?? $request->getAcceptableContentTypes()[0];
+
+        $type = explode('/', $type);
+
+        return isset($type[1]) ? $type[1] : $type[0];
+    }
+
+    private function all() {
+        $peoples = $this->people->all();
+        $result = array();
+
+        if($peoples->count()) {
+            $key = 0;
+
+            foreach($peoples as $people) {
+                $this->getData($people, $result, $key);
+            }
+        }
+        return $result;
+    }
+
+    private function getData($people, &$result, &$key)
     {
         $peopleFilms = $people->peopleFilm()->get();
-        $films = [];
 
         if($peopleFilms->count()) {
             foreach ($peopleFilms as $peopleFilm) {
-                $films[] = $peopleFilm->film()->get();
+
+                $film = $peopleFilm->film()->first();
+
+                $result[$key]['name'] = $people['name'];
+                $result[$key]['age']  = $people['age'];
+
+                $result[$key]['title']        = $film['title'];
+                $result[$key]['release_date'] = $film['release_date'];
+                $result[$key]['rt_score']     = $film['rt_score'];
+
+                $key++;
             }
         }
-        return $films;
+        return $result;
     }
 
     public function save($person)
