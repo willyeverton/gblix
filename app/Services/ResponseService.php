@@ -29,11 +29,6 @@ class ResponseService
 
     protected function csvResponse($data)
     {
-
-    }
-
-    protected function htmlResponse($data)
-    {
-
+        return $data;
     }
 }

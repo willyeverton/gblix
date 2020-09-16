@@ -21,7 +21,7 @@ class PeopleService extends ResponseService
         try {
             switch ($this->getAccept($request)) {
                 case 'html':
-                    return view('api');
+                    return view('api', ['data' => $data]);
 
                 case 'json':
                     return $this->jsonResponse($data);
