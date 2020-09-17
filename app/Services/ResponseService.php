@@ -29,8 +29,8 @@ class ResponseService
         return $data;
     }
 
-    protected function csvResponse()
+    protected function csvResponse($data)
     {
-        return Excel::download(new PopleFilmExport, 'films.csv');
+        return Excel::download(new PopleFilmExport($data), 'films.csv');
     }
 }

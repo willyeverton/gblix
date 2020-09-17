@@ -17,17 +17,20 @@ class PeopleService extends ResponseService
     public function index(Request $request)
     {
         try {
+
+            $data = $this->setParams($request, $this->all());
+
             switch ($this->getAccept($request)) {
                 case 'html':
                     return view('api',
-                        ['data' => $this->all()]
+                        ['data' => $data]
                     );
                 case 'json':
                     return $this->jsonResponse(
-                        $this->all()
+                        $data
                     );
                 case 'csv':
-                    return $this->csvResponse();
+                    return $this->csvResponse($data);
 
                 default :
                     return $this->jsonResponse(
@@ -51,6 +54,7 @@ class PeopleService extends ResponseService
     }
 
     public function all() {
+
         $peoples = $this->people->all();
         $result = array();
 
@@ -62,6 +66,18 @@ class PeopleService extends ResponseService
             }
         }
         return $result;
+    }
+
+    private function setParams($request, $data)
+    {
+        $filter = $request->get('filter');
+        $sort   = $request->get('sort');
+        $order  = $request->get('order');
+
+        if (!empty($order)) {
+            $data = $this->orderBy($data, $order);
+        }
+        return $data;
     }
 
     private function getData($people, &$result, &$key)
@@ -103,5 +119,29 @@ class PeopleService extends ResponseService
             'eye_color'  => $person['eye_color'],
             'hair_color' => $person['hair_color'],
         ];
+    }
+
+    private $key;
+    private function orderBy($array, $key) {
+
+        $key = strtolower($key);
+        $columns = [
+            'name',
+            'age',
+            'title',
+            'release_date',
+            'rt_score',
+        ];
+
+        if(!in_array($key, $columns)) {
+            throw new \Exception("$key is not a valid column!  Valid columns: '" . implode("', '", $columns) . "'");
+        }
+        $this->key = $key;
+
+        usort($array, function ($a, $b) {
+            return $a[$this->key] > $b[$this->key];
+        });
+
+        return $array;
     }
 }
