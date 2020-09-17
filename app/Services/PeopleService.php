@@ -74,10 +74,30 @@ class PeopleService extends ResponseService
         $sort   = $request->get('sort');
         $order  = $request->get('order');
 
+        if (!empty($filter)) {
+            $data = $this->filter($data, $filter);
+        }
         if (!empty($order)) {
-            $data = $this->orderBy($data, $order);
+            $data = $this->orderBy($data, $order, $sort);
         }
         return $data;
+    }
+
+    private function filter($data, $filter)
+    {
+        $filter = str_replace('_', ' ', $filter);
+        $filter = str_replace('+', ' ', $filter);
+
+        $result = array();
+        $filter = preg_quote($filter, '~');
+
+        foreach ($data as $key => $row) {
+
+            if(preg_grep("~$filter~", $row)){
+                $result[] = $data[$key];
+            }
+        }
+        return $result;
     }
 
     private function getData($people, &$result, &$key)
@@ -122,9 +142,29 @@ class PeopleService extends ResponseService
     }
 
     private $key;
-    private function orderBy($array, $key) {
-
+    private function orderBy($array, $key, $sort)
+    {
+        $sort = empty($sort) ? 'asc' : $sort;
         $key = strtolower($key);
+        $this->key = $key;
+
+        $this->validateParams($sort);
+
+        if($sort == 'asc') {
+            usort($array, function ($a, $b) {
+                return $a[$this->key] > $b[$this->key];
+            });
+        } else {
+            usort($array, function ($a, $b) {
+                return $a[$this->key] < $b[$this->key];
+            });
+        }
+
+        return $array;
+    }
+
+    private function validateParams($sort)
+    {
         $columns = [
             'name',
             'age',
@@ -133,15 +173,12 @@ class PeopleService extends ResponseService
             'rt_score',
         ];
 
-        if(!in_array($key, $columns)) {
-            throw new \Exception("$key is not a valid column!  Valid columns: '" . implode("', '", $columns) . "'");
+        if(!in_array($this->key, $columns)) {
+            throw new \Exception("'$this->key' is not a valid column!  Valid columns: '" . implode("', '", $columns) . "'");
         }
-        $this->key = $key;
 
-        usort($array, function ($a, $b) {
-            return $a[$this->key] > $b[$this->key];
-        });
-
-        return $array;
+        if($sort != 'asc' && $sort != 'desc') {
+            throw new \Exception("'$sort' is not a valid sort!  Valid sorts: 'asc', 'desc'.");
+        }
     }
 }
