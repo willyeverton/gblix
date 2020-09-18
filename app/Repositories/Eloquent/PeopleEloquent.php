@@ -14,12 +14,13 @@ class PeopleEloquent implements PeopleInterface
         $this->model = $people;
     }
 
-    public function all() {
+    public function all()
+    {
         return $this->model->all();
     }
 
-    public function save(array $people) {
-
+    public function save($people)
+    {
         return $this->model->updateOrCreate(
             ['_id' => $people['_id']],
             $people

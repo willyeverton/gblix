@@ -5,5 +5,5 @@ namespace App\Repositories\Interfaces;
 interface PeopleFilmInterface
 {
 
-    public function save(array $data);
+    public function save($data);
 }

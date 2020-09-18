@@ -68,7 +68,7 @@ class PeopleFilmService extends ResponseService
         }
     }
 
-    private function prepareData($person, $film) : array
+    private function prepareData($person, $film)
     {
         return [
             'people_id' => $person['id'],

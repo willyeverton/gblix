@@ -6,5 +6,5 @@ interface FilmInterface
 {
     public function all();
 
-    public function save(array $data);
+    public function save($data);
 }

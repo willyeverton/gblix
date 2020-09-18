@@ -20,7 +20,7 @@ class ApiCrawl extends Command
      *
      * @var string
      */
-    protected $description = 'Consulta os Filmes da API Studio Ghibli';
+    protected $description = 'Consulta e salva os Filmes da API Studio Ghibli';
 
     /**
      * Create a new command instance.
@@ -39,8 +39,8 @@ class ApiCrawl extends Command
      */
     public function handle()
     {
-        $this->comment('Processing...');
         $this->comment('Please wait!!!');
+        $this->comment('Processing....');
         $this->comment(
             PeopleFilm::save(
                 Ghibli::get()

@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Services\Facades\People;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 /**

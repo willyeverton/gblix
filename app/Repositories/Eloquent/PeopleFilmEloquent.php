@@ -14,8 +14,8 @@ class PeopleFilmEloquent implements PeopleFilmInterface
         $this->model = $model;
     }
 
-    public function save(array $people) {
-
+    public function save($people)
+    {
         return $this->model->updateOrCreate($people);
     }
 }

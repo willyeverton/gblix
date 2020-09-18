@@ -14,7 +14,7 @@ class GhibliService
         $this->client = new Client(['base_uri' => 'https://ghibliapi.herokuapp.com']);
     }
 
-    public function get() : array
+    public function get()
     {
         try {
             $promises = [
@@ -23,10 +23,17 @@ class GhibliService
             ];
             $responses = Promise\unwrap($promises);
 
-            if ($responses['people']->getStatusCode() == 200 && $responses['films']->getStatusCode() == 200) {
+            if ($responses['people']->getStatusCode() == 200
+             && $responses['films']->getStatusCode()  == 200) {
 
-                $responses['people'] = json_decode($responses['people']->getBody(), true);
-                $responses['films'] = json_decode($responses['films']->getBody(), true);
+                $responses['people'] = json_decode(
+                    $responses['people']->getBody(),
+                    true
+                );
+                $responses['films']  = json_decode(
+                    $responses['films']->getBody(),
+                    true
+                );
                 return $responses;
             }
             return array();

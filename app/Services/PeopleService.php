@@ -129,7 +129,7 @@ class PeopleService extends ResponseService
         );
     }
 
-    private function prepareData($person) : array
+    private function prepareData($person)
     {
         return [
             '_id'        => $person['id'],
@@ -154,7 +154,7 @@ class PeopleService extends ResponseService
             usort($array, function ($a, $b) {
                 return $a[$this->key] > $b[$this->key];
             });
-        } else {
+        } else { // desc
             usort($array, function ($a, $b) {
                 return $a[$this->key] < $b[$this->key];
             });

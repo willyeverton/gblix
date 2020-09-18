@@ -14,11 +14,12 @@ class FilmEloquent implements FilmInterface
         $this->model = $model;
     }
 
-    public function all() {
+    public function all()
+    {
         return $this->model->all();
     }
 
-    public function save(array $films)
+    public function save($films)
     {
         return $this->model->updateOrCreate(
             ['_id' => $films['_id']],

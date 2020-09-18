@@ -21,7 +21,7 @@ class FilmService
         );
     }
 
-    private function prepareData($film) : array
+    private function prepareData($film)
     {
         return [
             '_id'          => $film['id'],
@@ -33,5 +33,4 @@ class FilmService
             'release_date' => $film['release_date'],
         ];
     }
-
 }
